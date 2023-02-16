@@ -1,0 +1,38 @@
+---
+title: "eng_pca"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# Read in data
+data <- read.csv("raw-material-characterization.csv")
+rownames(data) <- paste(data$Lot.number,'',data$Outcome)
+```
+
+```{r}
+results <- prcomp(data[c('Size5', 'Size10', 'Size15', 'TGA', 'DSC', 'TMA')], scale = TRUE)
+```
+
+
+
+```{r}
+barplot(results$rotation[,1], main="PC 1 Loadings Plot")
+barplot(results$rotation[,2], main="PC 2 Loadings Plot")
+barplot(results$rotation[,3], main="PC 3 Loadings Plot")
+```
+
+
+
+```{r}
+results$sdev^2 / sum(results$sdev^2)
+```
+
+
+```{r}
+biplot(results, scale = 0)
+```
